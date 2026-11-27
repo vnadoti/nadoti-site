@@ -85,7 +85,7 @@ window.NADOTI_PRODUCTS = [
     platforms: ["Windows", "macOS"],
     formats: ["VST3", "AU", "Standalone"],
     status: "live",
-    price: "Licença",
+    price: "R$ 9,90",
     priceNote: "checkout seguro Hotmart",
     image: "img/pulso_live.png",
     // sem site próprio: vai direto para o checkout
