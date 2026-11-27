@@ -33,6 +33,11 @@
     }
     return `<div class="${cls}"><div class="art">${GLYPHS[p.glyph] || GLYPHS.md}</div></div>`;
   };
+  // Preço em destaque (verde); "Valor em breve" e afins ficam discretos
+  const priceHtml = (p) => {
+    const real = /\d/.test(p.price) || p.free;
+    return `<span class="price${real ? '' : ' is-tbd'}">${esc(p.price)}<small>${esc(p.priceNote || '')}</small></span>`;
+  };
   const badge = (p) => p.status !== 'live' ? '<span class="badge soon">Em breve</span>'
     : p.free ? '<span class="badge free">Grátis</span>' : '<span class="badge live">Disponível</span>';
 
@@ -47,7 +52,7 @@
         <p class="tagline">${esc(p.tagline)}</p>
         <div class="tags">${[...p.formats, ...p.platforms].map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
         <div class="card-foot">
-          <span class="price">${esc(p.price)}<small>${esc(p.priceNote || '')}</small></span>
+          ${priceHtml(p)}
           <span class="more">Ver detalhes ${ARROW}</span>
         </div>
       </div>
@@ -146,7 +151,7 @@
           <div><dt class="mono">Formatos</dt><dd>${esc(p.formats.join(' · '))}</dd></div>
         </dl>
         <div class="d-buy">
-          <span class="price">${esc(p.price)}<small>${esc(p.priceNote || '')}</small></span>
+          ${priceHtml(p)}
           ${p.gated ? '' : `<div class="d-actions">
             ${p.url
               ? `<a class="btn" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.ctaLabel || (p.free ? 'Baixar grátis' : 'Ver site e comprar'))} ${ARROW}</a>`

@@ -266,7 +266,11 @@ kbd { font-family: var(--mono); font-size: .62rem; padding: 2px 6px; border-radi
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .tag { font-family: var(--mono); font-size: .66rem; color: var(--text-3); padding: 3px 8px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); }
 .card-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.price { font-weight: 700; font-size: 1.1rem; letter-spacing: -.02em; }
+.price { font-weight: 800; font-size: 1.6rem; line-height: 1.1; letter-spacing: -.03em; color: var(--accent); }
+.price small { margin-top: 4px; }
+.price.is-tbd { font-weight: 600; font-size: 1.05rem; color: var(--text-2); }
+.d-buy .price { font-size: 2.1rem; }
+.d-buy .price.is-tbd { font-size: 1.15rem; }
 .price small { display: block; font-family: var(--mono); font-weight: 400; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
 .more { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: .9rem; transition: color .3s var(--ease); }
 .more svg { width: 16px; height: 16px; transition: transform .35s var(--ease); }
