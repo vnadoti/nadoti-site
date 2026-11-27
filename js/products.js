@@ -85,10 +85,12 @@ window.NADOTI_PRODUCTS = [
     platforms: ["Windows", "macOS"],
     formats: ["VST3", "AU", "Standalone"],
     status: "live",
-    price: "Valor em breve",
-    priceNote: "site em breve",
+    price: "Licença",
+    priceNote: "checkout seguro Hotmart",
     image: "img/pulso_live.png",
-    url: "",
+    // sem site próprio: vai direto para o checkout
+    url: "https://pay.hotmart.com/E108691874R",
+    ctaLabel: "Comprar agora",
   },
   {
     id: "vtask",
