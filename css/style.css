@@ -178,6 +178,10 @@ kbd { font-family: var(--mono); font-size: .62rem; padding: 2px 6px; border-radi
   transition: color .35s var(--ease), border-color .35s var(--ease), background-color .35s var(--ease);
 }
 .l-icon svg { width: 18px; height: 18px; }
+.l-icon.has-img { background: none; border-color: transparent; overflow: hidden; }
+.l-icon.has-img img { width: 100%; height: 100%; display: block; }
+.l-item.is-active .l-icon.has-img { background: none; border-color: transparent; box-shadow: 0 0 0 2px rgba(74,222,128,.45); }
+.d-icon { display: block; width: 48px; height: 48px; border-radius: 12px; margin-bottom: 16px; }
 .l-item.is-active .l-icon { color: var(--accent); border-color: rgba(74,222,128,.4); background: var(--accent-soft); }
 .l-text { min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
 .l-name { font-weight: 600; letter-spacing: -.01em; }

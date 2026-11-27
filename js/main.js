@@ -21,7 +21,9 @@
   };
   // Ícone de cada app no launcher do topo
   const ICON_OF = { 'madbass': 'bass', 'daw-manager': 'folders', 'pulso-live': 'pulse', 'vtask': 'check', 'mosaico': 'tiles','refcanvas': 'canvas', 'ollo-reader': 'book', 'yoink-md': 'md' };
-  const iconFor = (p) => GLYPHS[ICON_OF[p.id] || p.glyph] || GLYPHS.md;
+  // Se o produto tem ícone real (campo `icon`), usa ele; senão, o desenho genérico
+  const iconFor = (p) => p.icon ? `<img src="${esc(p.icon)}" alt="" width="36" height="36">`
+    : GLYPHS[ICON_OF[p.id] || p.glyph] || GLYPHS.md;
   const ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
   const media = (p, cls) => {
@@ -136,7 +138,7 @@
       ${media(p, 'd-media')}
       <div class="d-body">
         <div class="card-top"><span class="mono kind">${esc(p.kind)}</span>${badge(p)}</div>
-        <h2 id="drawerTitle">${esc(p.name)}</h2>
+        <h2 id="drawerTitle">${p.icon ? `<img class="d-icon" src="${esc(p.icon)}" alt="" width="44" height="44">` : ''}${esc(p.name)}</h2>
         <p class="d-tagline">${esc(p.tagline)}</p>
         <p class="d-desc">${esc(p.description)}</p>
         <ul class="d-feat">${p.features.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>
@@ -185,7 +187,7 @@
   launcher.tabIndex = 0;
   lList.innerHTML = P.map((p) => `
     <li class="l-item" data-id="${p.id}" role="option">
-      <span class="l-icon" aria-hidden="true">${iconFor(p)}</span>
+      <span class="l-icon${p.icon ? ' has-img' : ''}" aria-hidden="true">${iconFor(p)}</span>
       <span class="l-text"><span class="l-name">${esc(p.name)}</span><span class="l-kind">${esc(p.tagline)}</span></span>
       <span class="l-go">Abrir <kbd>↵</kbd></span>
     </li>`).join('');
