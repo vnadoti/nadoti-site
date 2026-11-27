@@ -64,6 +64,67 @@
     if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
   }));
 
+  /* ---------- Download grátis com e-mail (Brevo via /api/subscribe) ---------- */
+  const gateKey = (p) => `nadoti-download-${p.id}`;
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* sem storage, segue */ } },
+  };
+  const downloadBtn = (p, url) =>
+    `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener">Baixar o ${esc(p.name)} ${ARROW}</a>`;
+  function gateForm(p) {
+    const saved = store.get(gateKey(p));
+    if (saved) {
+      return `<div class="gate is-done"><p class="gate-title">Seu download já está liberado.</p>${downloadBtn(p, saved)}</div>`;
+    }
+    return `
+      <form class="gate" id="gateForm" novalidate>
+        <p class="gate-title">Deixe seu e-mail e baixe grátis</p>
+        <p class="gate-sub">Eu te aviso quando sair atualização ou um app novo. Nada de spam.</p>
+        <div class="gate-row">
+          <label class="sr-only" for="gateEmail">Seu e-mail</label>
+          <input class="gate-input" id="gateEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="seu@email.com" required>
+          <button class="btn" type="submit">Liberar download ${ARROW}</button>
+        </div>
+        <input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="gate-consent">
+          <input type="checkbox" name="consent" required>
+          <span>Aceito receber e-mails da Nadoti com novidades e lançamentos. Posso cancelar a qualquer momento pelo link no rodapé dos e-mails.</span>
+        </label>
+        <p class="gate-msg" role="status" aria-live="polite"></p>
+      </form>`;
+  }
+  function bindGate(p) {
+    const form = $('#gateForm');
+    if (!form) return;
+    const msg = $('.gate-msg', form);
+    const btn = $('button[type=submit]', form);
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      msg.className = 'gate-msg is-error';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = 'Confira o seu e-mail.'; form.email.focus(); return; }
+      if (!form.consent.checked) { msg.textContent = 'Marque a caixa de consentimento para continuar.'; return; }
+      btn.disabled = true; msg.className = 'gate-msg'; msg.textContent = 'Liberando…';
+      try {
+        const r = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email, product: p.id, consent: true, website: form.website.value }),
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok || !data.ok) throw new Error(data.error || 'Não consegui registrar seu e-mail agora. Tente de novo.');
+        if (data.downloadUrl) store.set(gateKey(p), data.downloadUrl);
+        form.outerHTML = `<div class="gate is-done"><p class="gate-title">Pronto! Download liberado.</p>
+          <p class="gate-sub">Obrigado por baixar o ${esc(p.name)}.</p>${data.downloadUrl ? downloadBtn(p, data.downloadUrl) : ''}</div>`;
+      } catch (err) {
+        btn.disabled = false;
+        msg.className = 'gate-msg is-error';
+        msg.textContent = err.message;
+      }
+    });
+  }
+
   /* ---------- Drawer ---------- */
   const drawer = $('#drawer');
   const body = $('#drawerBody');
@@ -85,13 +146,15 @@
         </dl>
         <div class="d-buy">
           <span class="price">${esc(p.price)}<small>${esc(p.priceNote || '')}</small></span>
-          <div class="d-actions">
+          ${p.gated ? '' : `<div class="d-actions">
             ${p.url
               ? `<a class="btn" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.ctaLabel || (p.free ? 'Baixar grátis' : 'Ver site e comprar'))} ${ARROW}</a>`
               : `<span class="btn btn-off" aria-disabled="true">Site em breve</span>`}
-          </div>
+          </div>`}
         </div>
+        ${p.gated ? gateForm(p) : ''}
       </div>`;
+    if (p.gated) bindGate(p);
     lastFocus = document.activeElement;
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');

@@ -334,6 +334,26 @@ kbd { font-family: var(--mono); font-size: .62rem; padding: 2px 6px; border-radi
 .d-buy { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 20px; border-radius: 16px; background: var(--accent-soft); border: 1px solid rgba(74,222,128,.25); }
 .d-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
+/* Download grátis com e-mail */
+.sr-only, .hp { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.gate { margin-top: 16px; padding: 24px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg); }
+.gate-title { margin: 0 0 4px; font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; }
+.gate-sub { margin: 0 0 16px; color: var(--text-2); font-weight: 300; font-size: .95rem; }
+.gate-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.gate-input {
+  flex: 1 1 200px; min-width: 0; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line-2);
+  border-radius: 999px; padding: 12px 18px; transition: border-color .3s var(--ease);
+}
+.gate-input::placeholder { color: var(--text-3); }
+.gate-input:focus { outline: none; border-color: var(--accent); }
+.gate .btn:disabled { opacity: .6; cursor: wait; transform: none; }
+.gate-consent { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: .82rem; color: var(--text-2); line-height: 1.5; cursor: pointer; }
+.gate-consent input { margin-top: 3px; accent-color: var(--accent); flex: none; width: 16px; height: 16px; }
+.gate-msg { margin: 12px 0 0; font-size: .88rem; color: var(--text-2); min-height: 1.3em; }
+.gate-msg:empty { display: none; }
+.gate-msg.is-error { color: #fca5a5; }
+.gate.is-done { border-color: rgba(74,222,128,.35); background: var(--accent-soft); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }

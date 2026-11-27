@@ -164,8 +164,9 @@ window.NADOTI_PRODUCTS = [
     price: "Grátis",
     priceNote: "freeware · sem pegadinha",
     image: "img/refcanvas.jpg",
-    url: "https://github.com/vnadoti/RefCanvas/releases/latest",
-    ctaLabel: "Baixar grátis",
+    // download liberado só depois do e-mail; o link fica em api/subscribe.js
+    gated: true,
+    url: "",
   },
   {
     id: "ollo-reader",
