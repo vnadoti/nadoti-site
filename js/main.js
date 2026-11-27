@@ -28,9 +28,8 @@
 
   const media = (p, cls) => {
     if (p.image) {
-      const contain = p.id === 'pulso-live' ? ' contain' : '';
       const pos = p.imagePosition ? ` style="object-position:${esc(p.imagePosition)}"` : '';
-      return `<div class="${cls}${contain}"><img src="${esc(p.image)}" alt="Tela do ${esc(p.name)}" loading="lazy"${pos}></div>`;
+      return `<div class="${cls}"><img src="${esc(p.image)}" alt="Tela do ${esc(p.name)}" loading="lazy"${pos}></div>`;
     }
     return `<div class="${cls}"><div class="art">${GLYPHS[p.glyph] || GLYPHS.md}</div></div>`;
   };

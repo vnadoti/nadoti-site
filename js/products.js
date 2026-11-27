@@ -88,7 +88,8 @@ window.NADOTI_PRODUCTS = [
     status: "live",
     price: "R$ 9,90",
     priceNote: "checkout seguro Hotmart",
-    image: "img/pulso_live.png",
+    image: "img/pulso_live.jpg",
+    icon: "img/pulso_live_icon.png",
     // sem site próprio: vai direto para o checkout
     url: "https://pay.hotmart.com/E108691874R",
     ctaLabel: "Comprar agora",
